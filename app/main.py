@@ -57,7 +57,7 @@ def webhook():
 
 
 def prediction(message):
-    words = ["ภาคพิเศษ","ภาคปกติ","ค่าเทอม","ภาคเปย์","ภาคปก","ภาคเป","สหกิจ","เฟซบุ๊ก","เฟสบุ๊ค","วิทย์คอม"]
+    words = ["ภาคพิเศษ","ภาคปกติ","ภาคเปย์","ภาคปก","ภาคเป","สหกิจ","เฟซบุ๊ก","เฟสบุ๊ค","วิทย์คอม"]
     custom_words_list = set(thai_words())
     custom_words_list.update(words)
     trie = dict_trie(dict_source=custom_words_list)
@@ -69,7 +69,7 @@ def prediction(message):
     index = [ logit[0][pred] for pred in np.argmax(logit, axis=1) ][0]
     index_to_label = sorted(['การเรียนแตกต่างกันไหม','กิจกรรมในภาควิชา','ค่าใช้จ่าย','ช่องทางติดต่อภาควิชา','ทักทาย','ทุนในภาควิชา','อุปกรณ์การเรียน','เรียนเวลาใด','เรียนแล้วคุ้มไหม'])
     predict = [index_to_label[pred] for pred in np.argmax(logit, axis=1) ][0]
-    if index > 0.7:
+    if index > 0.675:
         if predict == "ทักทาย":
             Reply_text="สวัสดีค่ะ คุณต้องการสอบถามเรื่องอะไรคะ"
         elif predict == "เรียนเวลาใด":
@@ -87,7 +87,7 @@ def prediction(message):
         elif predict == 'ทุนในภาควิชา':
             Reply_text="โครงการปริญญาตรีสาขาวิทยาการคอมพิวเตอร์ภาคพิเศษ ได้ให้การสนับสนุนนิสิตภาคพิเศษ ในหลากหลายรูปแบบ ดังตัวอย่างต่อไปนี้\n- ทุนการศึกษาสำหรับนิสิตชั้นปีที่ 1 ใน 2 ภาคการศึกษา หากนิสิตเรียนไม่ช้าไปกว่าแผนการเรียนที่กำหนดไว้\n- ทุนผลการเรียนดีเด่น ได้ A 3 รายวิชา และ 5 รายวิชา\n- ทุนเกรดเฉลี่ย 3.50 ขึ้นไป\n- ทุนโครงงานวิทยาการคอมพิวเตอร์\n- ทุนสหกิจศึกษา ณ ต่างประเทศ เช่น South Korea : Dongseo University, Taiwan : National Central University, Tamkang University, Yuan Ze University, Asia University, India : Christ University\n- ทุนโครงการ SUMMER CAMP ประเทศ Taiwan\n- ทุนผู้ช่วยสอน ทุนผู้ช่วยวิจัย\n- ทุนนำเสนอผลงานทางวิชาการ ทั้งในและต่างประเทศ"
         elif predict == 'อุปกรณ์การเรียน':
-            Reply_text="ทางคณะมีอุปกรณ์ให้ในคาบปฎิบัติ แต่ถ้ามีความประสงต์ต้องการยืมกลับบ้าน นิสิตจะต้องทำเรื่องขอยืม notebook โดยผ่านห้องสมุด"
+            Reply_text="ทางคณะมีอุปกรณ์ให้ในคาบปฎิบัติ แต่ถ้ามีความประสงค์ต้องการยืมกลับบ้าน นิสิตจะต้องทำเรื่องขอยืม notebook โดยผ่านห้องสมุด"
     else: Reply_text="ไม่เข้าใจคำถามค่ะ"
     return Reply_text
 
